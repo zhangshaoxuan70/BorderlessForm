@@ -91,6 +91,9 @@ namespace BorderlessForm
             Activated += MainForm_Activated;
             Deactivate += MainForm_Deactivate;
 
+            Load += MainForm_Load;
+            Paint += MainForm_Paint;
+
             foreach (var control in new[] { SystemLabel, MinimizeLabel, MaximizeLabel, CloseLabel })
             {
                 control.MouseEnter += (s, e) => SetLabelColors((Control)s, MouseState.Hover);
@@ -194,6 +197,17 @@ namespace BorderlessForm
         {
             SetBorderColor(ActiveBorderColor);
             SetTextColor(ActiveTextColor);
+        }
+
+        void MainForm_Load(object sender,EventArgs e)
+        {
+            TransparencyKey = Color.Black;//Change this color to fit your window.
+        }
+        
+        void MainForm_Paint(object sender,EventArgs e)
+        {
+            this.TransparencyKey = Color.Empty;
+            this.Update();
         }
 
         private Color activeTextColor = Color.FromArgb(68, 68, 68);
